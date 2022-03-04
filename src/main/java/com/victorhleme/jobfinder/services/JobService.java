@@ -4,7 +4,8 @@ import com.victorhleme.jobfinder.dto.JobDTO;
 import com.victorhleme.jobfinder.exceptions.JobNotFoundException;
 import com.victorhleme.jobfinder.model.Job;
 import com.victorhleme.jobfinder.repositories.JobRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -12,10 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class JobService {
 
-    private final JobRepository repository;
+    @Setter
+    private JobRepository repository;
     private final ModelMapper modelMapper;
 
     public Page<JobDTO> findAll(Pageable page) {

@@ -1,11 +1,10 @@
 package com.victorhleme.jobfinder.services;
 
 import com.victorhleme.jobfinder.dto.JobDTO;
-import com.victorhleme.jobfinder.exceptions.ConstraintException;
 import com.victorhleme.jobfinder.exceptions.JobNotFoundException;
-import com.victorhleme.jobfinder.exceptions.NoDataFoundException;
 import com.victorhleme.jobfinder.model.Job;
 import com.victorhleme.jobfinder.repositories.JobRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +41,11 @@ class JobServiceTest {
     class FindAllTests {
 
         Pageable page = PageRequest.of(0, 2);
+
+        @BeforeEach
+        void setup() {
+            jobService.setRepository(jobRepository);
+        }
 
         @Test
         @DisplayName("Should success when finding all the jobs")
@@ -73,6 +76,11 @@ class JobServiceTest {
     @Nested
     @DisplayName("Tests for method findById")
     class FindByIdTests {
+
+        @BeforeEach
+        void setup() {
+            jobService.setRepository(jobRepository);
+        }
 
         @Test
         @DisplayName("Should succeed when finding a job by id")
@@ -107,6 +115,11 @@ class JobServiceTest {
         Job job = criarJob();
         JobDTO jobDto = criarJobDTO();
 
+        @BeforeEach
+        void setup() {
+            jobService.setRepository(jobRepository);
+        }
+
         @Test
         void insertTestSuccess() {
 
@@ -129,6 +142,11 @@ class JobServiceTest {
     @Nested
     @DisplayName("Tests for method  update")
     class UpdateTests {
+
+        @BeforeEach
+        void setup() {
+            jobService.setRepository(jobRepository);
+        }
 
         Job job = new Job(1, "Tt", "Desc", 0,0);
         Job job2 = new Job(2, "Tt", "Desc", 0,0);
@@ -157,18 +175,17 @@ class JobServiceTest {
 
         JobRepository repoMock = Mockito.mock(JobRepository.class);
 
+        @BeforeEach
+        void setup() {
+            jobService.setRepository(repoMock);
+        }
+
         @Test
         void deleteTestSuccess() {
 
             Integer jobId = 1;
-            Job job = criarJob();
 
-            job.setId(jobId);
-
-            doAnswer(response -> {
-                response.getArgument(jobId);
-                return "deleted";
-            }).when(repoMock).deleteById(jobId);
+            doNothing().when(repoMock).deleteById(eq(jobId));
 
             assertDoesNotThrow(() -> {
                 jobService.delete(jobId);
@@ -179,17 +196,15 @@ class JobServiceTest {
         void deleteTestFail() {
             Integer jobId = 2;
 
-            doThrow(EmptyResultDataAccessException.class).when(repoMock).deleteById(jobId);
+            doThrow(EmptyResultDataAccessException.class).when(repoMock).deleteById(eq(jobId));
 
             JobNotFoundException thrown = assertThrows(JobNotFoundException.class,
-                    () -> jobService.findById(jobId), "JobNotFoundException was expected");
+                    () -> jobService.delete(jobId), "JobNotFoundException was expected");
 
             assertEquals(
                     "Job not found! Id: 2, type: class com.victorhleme.jobfinder.model.Job",
                     thrown.getMessage());
         }
-
-
     }
 
     private Job criarJob() {
