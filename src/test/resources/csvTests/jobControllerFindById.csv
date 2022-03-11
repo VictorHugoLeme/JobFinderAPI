@@ -1,0 +1,2 @@
+input, expected
+{null, "Test insert title", "Test insert desc", 10.0, 20.0}, {"id":4,"title":"Test insert title","description":"Test insert desc","minSalary":10.0,"maxSalary":20.0}
