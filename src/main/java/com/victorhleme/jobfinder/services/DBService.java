@@ -10,14 +10,13 @@ import java.text.ParseException;
 import java.util.stream.IntStream;
 
 @Service
-public class _DBService {
+public class DBService {
 
     @Autowired
     private JobRepository jobRepo;
 
     public void instantiateTestDatabase() throws ParseException, IOException {
 
-        //instanciando os objetos de teste
         IntStream.rangeClosed(1, 30).forEach(i -> {
             Job job = new Job();
             job.setTitle("Title" + i);
@@ -26,8 +25,6 @@ public class _DBService {
             job.setMaxSalary(20F*i);
             jobRepo.save(job);
         });
-
-
     }
 
 }

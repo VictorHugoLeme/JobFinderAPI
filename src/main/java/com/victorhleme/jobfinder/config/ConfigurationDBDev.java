@@ -1,6 +1,6 @@
 package com.victorhleme.jobfinder.config;
 
-import com.victorhleme.jobfinder.services._DBService;
+import com.victorhleme.jobfinder.services.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import java.text.ParseException;
 public class ConfigurationDBDev {
 
     @Autowired
-    private _DBService dbService;
+    private DBService dbService;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String strategy;

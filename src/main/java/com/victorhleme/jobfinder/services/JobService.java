@@ -26,10 +26,7 @@ public class JobService {
     }
 
     public JobDTO findById(Integer id) {
-        Job job = repository.findById(id).orElseThrow(() -> new JobNotFoundException(
-                "Job not found! Id: "
-                        + id + ", type: "
-                        + Job.class));
+        Job job = repository.findById(id).orElseThrow(() -> new JobNotFoundException(id));
         return convertToDTO(job);
     }
 
@@ -51,10 +48,7 @@ public class JobService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new JobNotFoundException(
-                    "Job not found! Id: "
-                            + id + ", type: "
-                            + Job.class);
+            throw new JobNotFoundException(id);
         }
     }
 

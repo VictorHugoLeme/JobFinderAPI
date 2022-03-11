@@ -3,7 +3,7 @@ package com.victorhleme.jobfinder.config;
 import java.io.IOException;
 import java.text.ParseException;
 
-import com.victorhleme.jobfinder.services._DBService;
+import com.victorhleme.jobfinder.services.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Profile;
 public class ConfigurationDBTest {
 
     @Autowired
-    private _DBService dbService;
+    private DBService dbService;
 
     @Bean
     public boolean instantiateDatabase() throws ParseException, IOException {
